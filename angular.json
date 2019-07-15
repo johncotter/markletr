@@ -1,0 +1,141 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "markletr": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/workspace:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/markletr",
+      "sourceRoot": "apps/markletr/src",
+      "prefix": "markletr",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/markletr",
+            "index": "apps/markletr/src/index.html",
+            "main": "apps/markletr/src/main.ts",
+            "polyfills": "apps/markletr/src/polyfills.ts",
+            "tsConfig": "apps/markletr/tsconfig.app.json",
+            "assets": [
+              "apps/markletr/src/favicon.ico",
+              "apps/markletr/src/assets"
+            ],
+            "styles": ["apps/markletr/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/markletr/src/environments/environment.ts",
+                  "with": "apps/markletr/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "markletr:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "markletr:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "markletr:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/markletr/tsconfig.app.json",
+              "apps/markletr/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/markletr/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/markletr/jest.config.js",
+            "tsConfig": "apps/markletr/tsconfig.spec.json",
+            "setupFile": "apps/markletr/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "markletr-e2e": {
+      "root": "apps/markletr-e2e",
+      "sourceRoot": "apps/markletr-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/markletr-e2e/cypress.json",
+            "tsConfig": "apps/markletr-e2e/tsconfig.e2e.json",
+            "devServerTarget": "markletr:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "markletr:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/markletr-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**", "!apps/markletr-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "markletr"
+}
